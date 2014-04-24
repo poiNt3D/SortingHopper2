@@ -1,0 +1,26 @@
+# Names used to distinguish sorting hoppers from a normal hoppers.
+# The first name in the list wll be used in the crafting recipe.
+names:
+  - Sorter
+  - Filter
+#Prevent items from being pulled down by another hopper
+preventitempull: false
+# If true, the plugin will listen to block break events and if a sorter block was broken
+# it will replace dropped hopper with the named one.
+# In order to do so, it have to cancel the breaking event and replace block with AIR.
+# WARNING! May cause interference with logging and protection plugins!
+replacedrops: true
+#Recipe
+crafting:
+  # Enable crafting recipe
+  enabled: true
+  # shaped or shapeless recipe
+  shaped: true
+  # the recipe: for shaped, a list of 1-3 rows, each row with 1-3 letters
+  # for shapeless, a list of 1-9 materials in any order
+  recipe: [ "IRI", "ICI", " I " ]
+  # the ingredients: map a letter in the recipe to a material
+  ingredients:
+    I: IRON_INGOT
+    R: REDSTONE_COMPARATOR
+    C: CHEST
