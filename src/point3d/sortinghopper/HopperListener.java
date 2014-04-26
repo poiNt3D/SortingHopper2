@@ -1,6 +1,5 @@
 package point3d.sortinghopper;
 
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -16,6 +15,9 @@ public final class HopperListener implements Listener {
             throw new IllegalArgumentException("Plugin cannot be null");
         }
         this.plugin = plugin;
+        
+
+
     }
 
 
@@ -26,7 +28,6 @@ public void onInventoryMoveItemEvent(InventoryMoveItemEvent event) {
     Inventory dest = event.getDestination();
     Inventory source = event.getSource();
     
-    
     //Prevent items from being pulled out by other hopper
 if(plugin.getConfig().getBoolean("preventitempull")){
     if(plugin.checkNames(source.getName()) && initiator != source){ 
@@ -35,29 +36,30 @@ if(plugin.getConfig().getBoolean("preventitempull")){
 }
 
     if(plugin.checkNames(initiator.getName())){   
-        
-        if(!initiator.containsAtLeast(event.getItem(),1)) {
+        //ItemStack compareditem = event.getItem();
+        //compareditem.
+        if(!initiator.contains(event.getItem().getType())) {
             
             event.setCancelled(true);
             
             //Try to move items in other slots
             if(dest != initiator) {
-                for(int n=1; n < initiator.getSize(); n++) {
-                    if(this.MoveItem(initiator, n, dest) == true){break;}
+                for(int slot=1; slot < initiator.getSize(); slot++) {
+                    if(this.MoveItem(initiator, slot, dest) == true){break;}
                }                
             }            
         }
     }
 }
 
-    public boolean MoveItem(Inventory initiator, Integer n, Inventory dest) {
+    public boolean MoveItem(Inventory initiator, Integer slot, Inventory dest) {
         
-        ItemStack item = initiator.getItem(n);
-        if(item == null || !initiator.containsAtLeast(item, 2)){
+        ItemStack item = initiator.getItem(slot);
+        if(item == null || !initiator.contains(item.getType(), 2)){
             return false;
         }
 
-        ItemStack newitem = item.clone();
+        ItemStack newitem = item.clone(); //Do i need to clone?
         newitem.setAmount(1);
         if (!dest.addItem(newitem).isEmpty()){return false;}
         Integer amount = item.getAmount();
