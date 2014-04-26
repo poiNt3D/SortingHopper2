@@ -12,73 +12,76 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SortingHopper extends JavaPlugin {
-  	private static final Logger mclog = Logger.getLogger("minecraft");
+  	public static final Logger mclog = Logger.getLogger("minecraft");   
         private final HopperListener hopperListener = new HopperListener(this);
-        private final BreakListener breakListener = new BreakListener(this);
-        
-	@Override
-	public void onDisable() {
-		mclog.info("[SortingHopper] stopped...");
-	}
- 
+//        private final BreakListener breakListener = new BreakListener(this);
+        // I dunno, should i have it here or there?
+   
 	@Override
 	public void onEnable() {
             
                 PluginManager pm = getServer().getPluginManager();
-                this.saveDefaultConfig();
-                
-
-
+                this.saveDefaultConfig();               
                  
                 pm.registerEvents(hopperListener, this);
                 
                 if(getConfig().getBoolean("replacedrops")){
-                pm.registerEvents(breakListener, this);                    
+                    final BreakListener breakListener = new BreakListener(this);
+                    pm.registerEvents(breakListener, this);                    
                 }
-                
+                if(getConfig().getBoolean("preventitempickup")){
+                    final PickupListener pickupListener = new PickupListener(this);
+                    pm.registerEvents(pickupListener, this);                    
+                }                
                 if (getConfig().getBoolean("crafting.enabled")){
-                addSorterRecipe();
-        	}
-
+                    addRecipe(getItem());
+        	}               
 		mclog.info("[SortingHopper] started!");
                 
 	}
         
-public ItemStack getHopper() {
-ItemStack hopper = new ItemStack(Material.HOPPER);
-ItemMeta meta = hopper.getItemMeta();
-
-List<String> names = this.getConfig().getStringList("names");
-meta.setDisplayName(names.get(0));
-
-hopper.setItemMeta(meta);
-return hopper;
+        
+public void DebugLog(String message){
+    mclog.info(message);
 }
 
+        
 public boolean checkNames(String name){
 List<String> names = this.getConfig().getStringList("names"); 
 return names.contains(name);
 }
 
- private void addSorterRecipe() {
+public ItemStack getItem() {
+ItemStack item = new ItemStack(Material.HOPPER);
+ItemMeta meta = item.getItemMeta();
+
+List<String> names = this.getConfig().getStringList("names");
+meta.setDisplayName(names.get(0));
+
+item.setItemMeta(meta);
+return item;
+}
+
+private void addRecipe(ItemStack item) {
     
-    if (getConfig().getBoolean("crafting.shaped")) {
-	ShapedRecipe recipe = new ShapedRecipe(getHopper());
-	List<String> l = getConfig().getStringList("crafting.recipe");
-	recipe.shape(l.toArray(new String[0]));
-	ConfigurationSection cs = getConfig().getConfigurationSection("crafting.ingredients");
+if (getConfig().getBoolean("crafting.shaped")) {
+			ShapedRecipe recipe = new ShapedRecipe(item);
+			List<String> l = getConfig().getStringList("crafting.recipe");
+			recipe.shape(l.toArray(new String[0]));
+			ConfigurationSection cs = getConfig().getConfigurationSection("crafting.ingredients");
 			for (String k : cs.getKeys(false)) {
 				Material mat = Material.matchMaterial(cs.getString(k));
 				recipe.setIngredient(k.charAt(0), mat);
 			}
 			getServer().addRecipe(recipe);
 		} else {
-			ShapelessRecipe recipe = new ShapelessRecipe(getHopper());
+			ShapelessRecipe recipe = new ShapelessRecipe(item);
 			List<String> l = getConfig().getStringList("crafting.recipe");
 			for (String s : l) {
 				recipe.addIngredient(Material.matchMaterial(s));
 			}
 			getServer().addRecipe(recipe);
 		}
-	}
+                
+}
 }
