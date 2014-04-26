@@ -25,7 +25,7 @@ public final class BreakListener  implements Listener{
             Hopper hopper = (Hopper)event.getBlock().getState();
             
             if(plugin.checkNames(hopper.getInventory().getName())){
-                ItemStack drop = plugin.getHopper();
+                ItemStack drop = plugin.getItem();
                 
                 //Looks hacky
                 event.setCancelled(true);
@@ -37,8 +37,7 @@ public final class BreakListener  implements Listener{
                 //event.getBlock().getDrops().add(drop);
                 
             }
-        }
-  
+        }  
     }
     
 }
