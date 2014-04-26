@@ -59,7 +59,7 @@ if(plugin.getConfig().getBoolean("preventitempull")){
             return false;
         }
 
-        ItemStack newitem = item.clone(); //Do i need to clone?
+        ItemStack newitem = item.clone();
         newitem.setAmount(1);
         if (!dest.addItem(newitem).isEmpty()){return false;}
         Integer amount = item.getAmount();
