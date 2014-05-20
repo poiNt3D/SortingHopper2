@@ -35,16 +35,18 @@ if(plugin.getConfig().getBoolean("preventitempull")){
     }
 }
 
-    if(plugin.checkNames(initiator.getName()) && !initiator.contains(event.getItem().getType())){   
-
+    if(plugin.checkNames(initiator.getName())){   
+        if(!initiator.contains(event.getItem().getType())) {
+            
             event.setCancelled(true);
             
             //Try to move items in other slots
-         if(dest != initiator) {
+            if(dest != initiator) {
                 for(int slot=1; slot < initiator.getSize(); slot++) {
                     if(this.MoveItem(initiator, slot, dest) == true){break;}
-                }                
-         }            
+               }                
+            }            
+        }
     }
 }
 
