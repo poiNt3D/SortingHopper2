@@ -20,7 +20,9 @@ public final class BreakListener  implements Listener{
     
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
-        
+        if(event.getPlayer().getGameMode() == GameMode.CREATIVE){
+            return;
+        }
         if (event.getBlock().getType() == Material.HOPPER){
             Hopper hopper = (Hopper)event.getBlock().getState();
             
