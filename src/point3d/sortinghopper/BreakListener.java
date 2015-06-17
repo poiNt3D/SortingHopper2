@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
  * with "customized" hopper. Does not play well with block break protection
  * plugins.
  */
-public final class BreakListener implements Listener{
+public final class BreakListener implements Listener {
 
 	private final SortingHopper plugin;
 
@@ -28,25 +28,25 @@ public final class BreakListener implements Listener{
 
 	/**
 	 * Event handler for block breaking
-	 * 
+	 *
 	 * @param event the Block Break Event
 	 */
 	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event){
-		if(event.getPlayer().getGameMode() == GameMode.CREATIVE){
+	public void onBlockBreak(BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			return;
 		}
-		if (event.getBlock().getType() == Material.HOPPER){
+		if (event.getBlock().getType() == Material.HOPPER) {
 			Hopper hopper = (Hopper)event.getBlock().getState();
 
-			if(plugin.checkNames(hopper.getInventory().getName())){
+			if (plugin.checkNames(hopper.getInventory().getName())) {
 				ItemStack drop = plugin.getItem();
-				
-				//Looks hacky
+
+				// Looks hacky
 				event.setCancelled(true);
 				event.getBlock().setType(Material.AIR);
 				event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), drop);
 			}
-		}  
+		}
 	}
 }

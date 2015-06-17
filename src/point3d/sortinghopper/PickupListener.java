@@ -29,7 +29,7 @@ public class PickupListener implements Listener {
 	 */
 	@EventHandler
 	public void onInventoryPickupEvent(InventoryPickupItemEvent event) {
-		if(plugin.checkNames(event.getInventory().getName())) {
+		if (plugin.checkNames(event.getInventory().getName())) {
 			event.setCancelled(true);
 		}
 	}

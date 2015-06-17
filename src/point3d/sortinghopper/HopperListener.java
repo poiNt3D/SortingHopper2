@@ -25,7 +25,7 @@ public final class HopperListener implements Listener {
 		}
 		this.plugin = plugin;
 	}
-	
+
 	/**
 	 * Inventory movement event, triggered by hopper seek.
 	 *
@@ -37,21 +37,21 @@ public final class HopperListener implements Listener {
 		Inventory dest = event.getDestination();
 		Inventory source = event.getSource();
 
-		//Prevent items from being pulled out by other hopper
-		if(plugin.getConfig().getBoolean("preventitempull")){
-			if(plugin.checkNames(source.getName()) && initiator != source){ 
+		// Prevent items from being pulled out by other hopper
+		if (plugin.getConfig().getBoolean("preventitempull")) {
+			if (plugin.checkNames(source.getName()) && initiator != source) {
 				event.setCancelled(true);
 			}
 		}
 
-		if(plugin.checkNames(initiator.getName())){
-			if(!initiator.contains(event.getItem().getType())) {
+		if (plugin.checkNames(initiator.getName())) {
+			if (!initiator.contains(event.getItem().getType())) {
 				event.setCancelled(true);
 
-				//Try to move items in other slots
-				if(dest != initiator) {
-					for(int slot = 1; slot < initiator.getSize(); slot++) {
-						if( this.MoveItem(initiator, slot, dest) ){
+				// Try to move items in other slots
+				if (dest != initiator) {
+					for (int slot = 1; slot < initiator.getSize(); slot++) {
+						if ( this.MoveItem(initiator, slot, dest) ) {
 							break;
 						}
 					}
@@ -62,7 +62,7 @@ public final class HopperListener implements Listener {
 
 	/**
 	 * Internal method moveItem, does a move.
-	 * 
+	 *
 	 * @param initiator Inventory source
 	 * @param slot Inventory slot #
 	 * @param dest Inventory destination
