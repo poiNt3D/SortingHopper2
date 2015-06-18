@@ -18,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SortingHopper extends JavaPlugin {
 
 	private final List<String> names = null;
-	
+
 	/**
 	 * Sets up listeners for the SortingHopper
 	 */
@@ -27,37 +27,37 @@ public class SortingHopper extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		this.saveDefaultConfig();
 
-		names = this.getConfig().getStringList("names"); 
-		 
+		names = this.getConfig().getStringList("names");
+
 		final HopperListener hopperListener = new HopperListener(this);
 		pm.registerEvents(hopperListener, this);
 
 		if (getConfig().getBoolean("replacedrops")) {
 			final BreakListener breakListener = new BreakListener(this);
-			pm.registerEvents(breakListener, this); 
+			pm.registerEvents(breakListener, this);
 		}
 		if (getConfig().getBoolean("preventitempickup")) {
 			final PickupListener pickupListener = new PickupListener(this);
 			pm.registerEvents(pickupListener, this);
-		}                
+		}
 		if (getConfig().getBoolean("crafting.enabled")) {
 			addRecipe(getItem());
-		}               
+		}
 		getLogger().info("[SortingHopper] started!");
 	}
 
 	/**
 	 * Check the given string against configured names
-	 * 
+	 *
 	 * @param name The name string to test
 	 */
-	public boolean checkNames(String name){
+	public boolean checkNames(String name) {
 		return names.contains(name);
 	}
 
 	/**
 	 * Return an ItemStack with a custom display name
-	 * 
+	 *
 	 * @return an ItemStack with custom meta
 	 */
 	public ItemStack getItem() {
@@ -91,12 +91,12 @@ public class SortingHopper extends JavaPlugin {
 			getServer().addRecipe(recipe);
 		} else {
 			ShapelessRecipe recipe = new ShapelessRecipe(item);
-			
+
 			List<String> l = getConfig().getStringList("crafting.recipe");
 			for (String s : l) {
 				recipe.addIngredient(Material.matchMaterial(s));
 			}
-			
+
 			getServer().addRecipe(recipe);
 		}
 	}
