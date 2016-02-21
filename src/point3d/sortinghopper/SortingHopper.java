@@ -1,7 +1,6 @@
 package point3d.sortinghopper;
 
 import java.util.List;
-import java.util.logging.Logger;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class SortingHopper extends JavaPlugin {
 
-	private final List<String> names = null;
+	private List<String> names = null;
 
 	/**
 	 * Sets up listeners for the SortingHopper

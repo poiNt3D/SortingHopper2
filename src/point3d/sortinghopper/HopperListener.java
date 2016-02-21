@@ -37,23 +37,24 @@ public final class HopperListener implements Listener {
 		Inventory dest = event.getDestination();
 		Inventory source = event.getSource();
 
-		// Prevent items from being pulled out by other hopper
-		if (plugin.getConfig().getBoolean("preventitempull")) {
-			if (plugin.checkNames(source.getName()) && initiator != source) {
-				event.setCancelled(true);
-			}
+
+		// Prevent items from emptying a sorter, or being pulled out by other hopper
+		if (initiator != source && plugin.checkNames(source.getName())
+				&& (!source.contains(event.getItem().getType())
+						|| plugin.getConfig().getBoolean("preventitempull"))) {
+			event.setCancelled(true);
+			return;
 		}
 
-		if (plugin.checkNames(initiator.getName())) {
-			if (!initiator.contains(event.getItem().getType())) {
-				event.setCancelled(true);
+		if (plugin.checkNames(initiator.getName())
+				&& !initiator.contains(event.getItem().getType())) {
+			event.setCancelled(true);
 
-				// Try to move items in other slots
-				if (dest != initiator) {
-					for (int slot = 1; slot < initiator.getSize(); slot++) {
-						if ( this.MoveItem(initiator, slot, dest) ) {
-							break;
-						}
+			// Try to move items in other slots
+			if (dest != initiator) {
+				for (int slot = 1; slot < initiator.getSize(); slot++) {
+					if ( this.MoveItem(initiator, slot, dest) ) {
+						break;
 					}
 				}
 			}
