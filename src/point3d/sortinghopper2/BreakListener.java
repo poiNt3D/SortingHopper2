@@ -1,4 +1,4 @@
-package point3d.sortinghopper;
+package point3d.sortinghopper2;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -15,8 +15,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public final class BreakListener implements Listener {
 
-	private final SortingHopper plugin;
-
+	private final SortingHopper plugin;      
 	/**
 	 * Creates a Block Break listener
 	 */
@@ -40,8 +39,10 @@ public final class BreakListener implements Listener {
 		if (event.getBlock().getType() == Material.HOPPER) {
 			Hopper hopper = (Hopper)event.getBlock().getState();
 
-			if (plugin.checkNames(hopper.getInventory().getName())) {
-				ItemStack drop = plugin.getItem();
+			if (Sorter.checkNames(hopper.getInventory().getName())) {
+				plugin.getRules().removeRule(event.getBlock().getLocation());
+				
+				ItemStack drop = Sorter.getItem();
 
 				// Looks hacky
 				event.setCancelled(true);

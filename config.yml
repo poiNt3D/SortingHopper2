@@ -1,27 +1,48 @@
 # Names used to distinguish sorting hoppers from a normal hoppers.
 # The first name in the list wll be used in the crafting recipe.
 names:
+  - Item Sorter
   - Sorter
   - Filter
-#Prevent items from being pulled down by another hopper
-preventitempull: false
+#Inventory size - number of rule slots in each sorter. Must be multiple of 9
+inventory_size: 9
+#Automatically save rules when player closes rule menu
+autosave: true
+#Prevent sorting hoppers from picking up items from the ground
 preventitempickup: false
+#Prevent players from getting sorting hoppers by renaming on the anvil
+preventrename: true
 # If true, the plugin will listen to block break events and if a sorter block was broken
 # it will replace dropped hopper with the named one.
 # In order to do so, it have to cancel the breaking event and replace block with AIR.
-# WARNING! May cause interference with logging and protection plugins!
-replacedrops: true
+# WARNING! Setting this to true may cause interference with logging and protection plugins!
+replacedrops: false
+#If replacedrops is set to false, broken sorters will drop additional resource
+#It will drop a regular hopper and add a comparator by default, which is crafting ingridients for a new Sorter
+#You can set this to whatever, if you don't want any drops
+add_drop: COMPARATOR
+# Lore is displayed on the item
+lore: 
+  - "Only selected items will go through."
+  - "Rightclick to show rules"
+  - "Shift+rightclick with an empty hand to show hopper inventory."
+rule_lore:
+  - "Right click: group sorting"
+  - "Left click: remove"
 #Recipes
 crafting:
   # is crafting enabled at all?
   enabled: true
   # shaped or shapeless recipe?
-  shaped: true
+  shaped: false
   # the recipe: for shaped, a list of 1-3 rows, each row with 1-3 letters
   #  for shapeless, a list of 1-9 materials in any order
-  recipe: [ "IRI", "ICI", " I " ]
-  # the ingredients: map a letter in the recipe to a material
-  ingredients:
-    I: IRON_INGOT
-    R: COMPARATOR
-    C: CHEST
+  recipe: ["HOPPER", "COMPARATOR"]
+#Shaped recipe example:
+#  shaped: true
+#  recipe: [ "IRI", "ICI", " I " ]
+#  ingredients:
+#    I: IRON_INGOT
+#    R: COMPARATOR
+#    C: CHEST
+debug: false
