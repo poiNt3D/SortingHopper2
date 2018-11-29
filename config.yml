@@ -23,5 +23,5 @@ crafting:
   # the ingredients: map a letter in the recipe to a material
   ingredients:
     I: IRON_INGOT
-    R: REDSTONE_COMPARATOR
+    R: COMPARATOR
     C: CHEST

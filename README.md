@@ -23,4 +23,4 @@ Pursuant to GPLv3 (ugh) just a notice that as of June 1, 2015, ProgrammerDan (al
 
 GPLv3 still applies to all distributions, and the license as original attached will remain as such.
 
-All credit to poiNt3D for original conception.
+Merged back from Rycochet (github.com/Rycochet) on 28.11.2018

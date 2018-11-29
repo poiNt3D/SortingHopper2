@@ -2,6 +2,7 @@ package point3d.sortinghopper;
 
 import java.util.List;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -39,12 +40,14 @@ public class SortingHopper extends JavaPlugin {
 			final PickupListener pickupListener = new PickupListener(this);
 			pm.registerEvents(pickupListener, this);
 		}
-		if (getConfig().getBoolean("crafting.enabled")) {
-			addRecipe(getItem());
-		}
-		getLogger().info("[SortingHopper] started!");
-	}
 
+		this.getLogger().info("started!");
+		
+		if (getConfig().getBoolean("crafting.enabled")) {
+			final ServerLoadListener serverloadistener = new ServerLoadListener(this);
+			pm.registerEvents(serverloadistener, this);
+		}
+	}
 	/**
 	 * Check the given string against configured names
 	 *
@@ -75,25 +78,41 @@ public class SortingHopper extends JavaPlugin {
 	 *
 	 * @param item the ItemStack item to configure a new recipe for.
 	 */
-	private void addRecipe(ItemStack item) {
+	public void addRecipe() {
+ 		NamespacedKey namespacekey = new NamespacedKey(this, this.getDescription().getName());
 		if (getConfig().getBoolean("crafting.shaped")) {
-			ShapedRecipe recipe = new ShapedRecipe(item);
+			ShapedRecipe recipe = new ShapedRecipe(namespacekey, this.getItem());
 			List<String> l = getConfig().getStringList("crafting.recipe");
 			recipe.shape(l.toArray(new String[0]));
 
 			ConfigurationSection cs = getConfig().getConfigurationSection("crafting.ingredients");
 			for (String k : cs.getKeys(false)) {
-				Material mat = Material.matchMaterial(cs.getString(k));
-				recipe.setIngredient(k.charAt(0), mat);
+				if(Material.matchMaterial(cs.getString(k)) != null){
+					recipe.setIngredient(k.charAt(0), Material.matchMaterial(cs.getString(k)));
+				}
+				else if(cs.getString(k).equals("REDSTONE_COMPARATOR")){
+					recipe.setIngredient(k.charAt(0), Material.COMPARATOR);
+				}
+				else {
+					this.getLogger().warning("Wrong material in crafting recipe!");
+				}
 			}
 
 			getServer().addRecipe(recipe);
 		} else {
-			ShapelessRecipe recipe = new ShapelessRecipe(item);
+			ShapelessRecipe recipe = new ShapelessRecipe(namespacekey, this.getItem());
 
 			List<String> l = getConfig().getStringList("crafting.recipe");
 			for (String s : l) {
-				recipe.addIngredient(Material.matchMaterial(s));
+				if(Material.matchMaterial(s) != null){
+					recipe.addIngredient(Material.matchMaterial(s));
+				}
+				else if(s.equals("REDSTONE_COMPARATOR")){
+					recipe.addIngredient(Material.COMPARATOR);
+				}
+				else {
+					this.getLogger().warning("Wrong material in crafting recipe!");
+				}
 			}
 
 			getServer().addRecipe(recipe);
