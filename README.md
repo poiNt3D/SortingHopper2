@@ -24,3 +24,15 @@ Pursuant to GPLv3 (ugh) just a notice that as of June 1, 2015, ProgrammerDan (al
 GPLv3 still applies to all distributions, and the license as original attached will remain as such.
 
 Merged back from Rycochet (github.com/Rycochet) on 28.11.2018
+
+Version 2.1 changes
+===================
+
+* Moved to a separate GitHub repository to preserve simple and clean version (now refered as Sorting Hopper Classic)
+* Sorting rules are now being stored in file instead of hopper's own inventory
+* Save/Load rules feature via commands
+* Inventory menu shows up when a player clicks a sorter
+* New ItemGroup system allows sorting of similar items configured in itemgroups.yml (it replaces 2.0 torch/lever switch)
+* Configurable inventory menu size
+* New BreakListenerGentle added to avoid conflicts with build protection plugins. Doesn't remove hopper drop, but adds a configurable item to it.
+* Changed default crafting recipe to Hopper+Comparator to match new break listener drop.
