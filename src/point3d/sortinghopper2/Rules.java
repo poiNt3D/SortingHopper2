@@ -12,6 +12,9 @@ import java.util.zip.GZIPOutputStream;
 
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import me.sothatsit.usefulsnippets.EnchantGlow;
 
 public class Rules {
 	private final SortingHopper plugin;
@@ -120,7 +123,7 @@ public class Rules {
 	      for(String key : map.keySet()) {
 	      	try {
 	      		//plugin.DebugLog("Key: " + Serialization.stringToLocation(key));
-	      		this.rules.put(Serialization.stringToLocation(key), Serialization.inventoryFromBase64(map.get(key)));
+	      		this.rules.put(Serialization.stringToLocation(key), fixGlow(Serialization.inventoryFromBase64(map.get(key))));
 	      	} catch  (Exception e) {
 	      		e.printStackTrace();
 	      		return false;
@@ -129,5 +132,16 @@ public class Rules {
 	       
 	      }
 	      return true;
+	}
+	
+	private static Inventory fixGlow(Inventory inv) {
+		
+		for(ItemStack item : inv.getContents()) {
+			if(item!=null && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+				EnchantGlow.addGlow(item);
+			}
+		}
+		
+		return inv;
 	}
 }
