@@ -45,15 +45,13 @@ public void onPlayerInteract(PlayerInteractEvent event) {
 }
 @EventHandler
 public void onInventoryClick(InventoryClickEvent event) {
-	if(event.getClickedInventory() == null){
+	if(event.getClickedInventory() == null || event.getCurrentItem().getType().equals(Material.AIR)){
 		return;
 	}
 	
 	Inventory inv = event.getInventory();
 	if (plugin.getRules().checkInv(inv)) {
 		event.setCancelled(true);
-
-
 		
 		//if player clicks sorter inventory menu
 		if(Sorter.checkNames(event.getClickedInventory().getName())){
@@ -63,7 +61,7 @@ public void onInventoryClick(InventoryClickEvent event) {
 				itemTagSwitch(event.getCurrentItem());
 			}
 		}
-		//player clicks his own inventory, add item
+//		//player clicks his own inventory, add item
 		else if(inv.firstEmpty() >= 0 && inv.first(event.getCurrentItem()) < 0) {
 			ItemStack item = new ItemStack(event.getCurrentItem().getType());
 			ItemMeta meta = item.getItemMeta();
