@@ -10,6 +10,8 @@ inventory_size: 9
 autosave: true
 #Prevent sorting hoppers from picking up items from the ground
 preventitempickup: false
+#Filter items picked up from the ground. "preventitempickup" must be set to false
+sortitempickup: true
 #Prevent players from getting sorting hoppers by renaming on the anvil
 preventrename: true
 # If true, the plugin will listen to block break events and if a sorter block was broken

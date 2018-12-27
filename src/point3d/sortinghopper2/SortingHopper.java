@@ -58,7 +58,10 @@ public class SortingHopper extends JavaPlugin{
 			final PickupListener pickupListener = new PickupListener();
 			pm.registerEvents(pickupListener, this);
 		}
-		
+		else if(getConfig().getBoolean("sortitempickup")) {
+			final PickupListenerFilter pickupListener = new PickupListenerFilter(this);
+			pm.registerEvents(pickupListener, this);
+		}		
 		if (getConfig().getBoolean("crafting.enabled")) {
 			final ServerLoadListener serverloadistener = new ServerLoadListener(this);
 			pm.registerEvents(serverloadistener, this);
