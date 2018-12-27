@@ -1,7 +1,9 @@
 SortingHopper2
 =============
+
 Bukkit plugin that creates item filter from a hopper.
 https://dev.bukkit.org/projects/sortinghopper
+
 Notes
 =====
 
