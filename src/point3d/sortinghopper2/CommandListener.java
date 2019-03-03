@@ -34,10 +34,29 @@ public class CommandListener implements CommandExecutor {
 		    }
 		  switch (args[0]) {
 			case "give":
-				if (sender instanceof Player){
-					((Player) sender).getInventory().addItem(Sorter.getItem());  
-				}
+				if(args.length == 1){
+					if (sender instanceof Player){
+						((Player) sender).getInventory().addItem(Sorter.getItem());  
+					}
+					else {
+						Message("Please, provide player name", sender);
+					}
+				
+				  }
+				else {
+					String s = args[1];
+					for(int i=2; i<args.length; i++) {
+						s.concat(" " + args[i]);
+					}
+					Player player = Bukkit.getPlayer(s);
+					if(player != null) {
+						player.getInventory().addItem(Sorter.getItem());
+						Message("Item was given to " + s, sender);
+					}
+				
+				  }
 				break;
+				
 			case "save":
 				if(args.length == 1){
 					plugin.getRules().saveRules();
