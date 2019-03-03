@@ -1,3 +1,5 @@
+backend: flatfile
+backups_number: 5
 # Names used to distinguish sorting hoppers from a normal hoppers.
 # The first name in the list wll be used in the crafting recipe.
 names:

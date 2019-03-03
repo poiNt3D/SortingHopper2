@@ -1,23 +1,16 @@
 package point3d.sortinghopper2;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
+
 
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import me.sothatsit.usefulsnippets.EnchantGlow;
+import point3d.sortinghopper2.backend.RulesBackend;
+import point3d.sortinghopper2.backend.flatfile.Flatfile;
 
 public class Rules {
 	private final SortingHopper plugin;
+	private final RulesBackend backend;
 	public HashMap<Location, Inventory> rules = new HashMap<Location, Inventory>();
 	
 	public Rules(SortingHopper plugin) {
@@ -25,6 +18,15 @@ public class Rules {
 	            throw new IllegalArgumentException("Plugin cannot be null");
 	      }
 	        this.plugin = plugin;
+	        
+	        switch(plugin.getConfig().getString("backend")) {
+	        case "flatfile": 
+	      	this.backend = new Flatfile(plugin);
+	        	break;
+	        default:
+	      	plugin.getLogger().info("[SoringHopper] Wrong backend set in config.yml, using flatfile");
+	      	this.backend = new Flatfile(plugin);
+	        }
 	}
 	    
 	
@@ -40,7 +42,7 @@ public class Rules {
 	}
 	
 	public boolean checkInv(Inventory inv){
-		return Sorter.checkNames(inv.getName()) && rules.containsValue(inv);
+		return rules.containsValue(inv);
 	}
 	
 	public void removeRule(Location loc){
@@ -55,93 +57,40 @@ public class Rules {
 	}
 	public void saveRules(String filename) {
 
-		try {
-		      File file = new File(plugin.getDataFolder(), filename + ".dat");
-		      ObjectOutputStream output;
-			output = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
-		      HashMap<String, String> rules_serialized = new HashMap<String, String>();
-		      
-		      //this.rules.forEach((k,v) -> rules_serialized.put(Serialization.locationToString(k), Serialization.toBase64(v)));
-		      
-		      for(Location k : rules.keySet()){
-		      	if(k != null){
-		      		rules_serialized.put(Serialization.locationToString(k), Serialization.toBase64(rules.get(k)));
-		      	}
-		      }
-		       
-			output.writeObject(rules_serialized);
-		      output.flush();
-		      output.close();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
+		backend.save(this.rules, filename);
 
 	}
 	public void loadAndBackup(){
 		
-		File rulesfile = new File(plugin.getDataFolder(), "rules.dat");
-		
-		if(rulesfile.exists()){
-			//Check if rules are loading and then overwrite backup
-			if(loadRules()){
-				File backupfile = new File(plugin.getDataFolder(), "rules.bak");
-				
-				if(backupfile.exists()){
-					backupfile.delete();
-				}
-				
-				rulesfile.renameTo(new File(plugin.getDataFolder(), "rules.bak"));
-			    	saveRules();
-			}
+		if(loadRules()) {
+			backend.makeBackup(this.rules);
 		}
 	}
 	
 	public boolean loadRules(){
 		return loadRules("rules");
 	}
-	@SuppressWarnings("unchecked")
+
 	public boolean loadRules(String filename){
-	      HashMap<String, String> map = new HashMap<String, String>();
-		try {
-		      File file = new File(plugin.getDataFolder(), filename + ".dat");
-		      if(!file.exists()){
-		      	SortingHopper.mclog.severe("[SortingHopper] file not found: " + filename + ".dat");
-		      	return false;
-		      }
-		      ObjectInputStream input;
-			input = new ObjectInputStream(new GZIPInputStream(new FileInputStream(file)));
-		      Object readObject = input.readObject();
-		      input.close();
-		      if(!(readObject instanceof HashMap)) return false;
-		      map = (HashMap<String, String>) readObject;
-		} catch (Exception e) {
-			e.printStackTrace();
+		HashMap<Location, Inventory> result = backend.load(filename);
+		if(result != null) {
+			this.rules = result;
+			return true;
+		}
+		else {
 			return false;
 		}
-	   
-	      for(String key : map.keySet()) {
-	      	try {
-	      		//plugin.DebugLog("Key: " + Serialization.stringToLocation(key));
-	      		this.rules.put(Serialization.stringToLocation(key), fixGlow(Serialization.inventoryFromBase64(map.get(key))));
-	      	} catch  (Exception e) {
-	      		e.printStackTrace();
-	      		return false;
-	      	}
-	      	
-	       
-	      }
-	      return true;
 	}
 	
-	private static Inventory fixGlow(Inventory inv) {
-		
-		for(ItemStack item : inv.getContents()) {
-			if(item!=null && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
-				EnchantGlow.addGlow(item);
-			}
-		}
-		
-		return inv;
+	public boolean makeBackup() {
+		return backend.makeBackup(this.rules);
 	}
+	
+	public int loadBackup() {
+		return backend.loadBackup();
+	}
+	
+	public int getCurrentBackupN() {
+		return RulesBackend.getCurrentBackupN(plugin.getConfig().getInt("backups_number"));
+	}	
 }
