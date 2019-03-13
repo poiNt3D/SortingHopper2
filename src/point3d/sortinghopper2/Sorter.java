@@ -44,10 +44,11 @@ public class Sorter {
 	 *
 	 * @param name The name string to test
 	 */
-	public static boolean checkNames(String name){
-		return sorter_primaryname.equals(name) || sorter_names.contains(name);
-	}
-
+//	public static boolean checkNames(String name){
+//		return sorter_primaryname.equals(name) || sorter_names.contains(name);
+//	}
+//	
+	
 	/**
 	 * Return an ItemStack with custom item meta
 	 *
@@ -61,6 +62,13 @@ public class Sorter {
 		meta.setLore(sorter_lore);
 		item.setItemMeta(meta);
 		return item;
+	}
+	
+	public static boolean checkItem(ItemStack item) {
+		if(item.getType().equals(Material.HOPPER) && item.hasItemMeta()) {
+			return item.getItemMeta().getLore().equals(sorter_lore);
+		}
+		else return false;
 	}
 	/**
 	 * Create an Inventory with custom inventory name and configured size
@@ -81,4 +89,5 @@ public class Sorter {
 		return r;
 	
 	}
+
 }

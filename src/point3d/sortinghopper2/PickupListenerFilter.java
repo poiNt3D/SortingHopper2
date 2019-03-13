@@ -1,5 +1,4 @@
 package point3d.sortinghopper2;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
@@ -24,12 +23,12 @@ public class PickupListenerFilter implements Listener {
 	 */
 	@EventHandler
 	public void onInventoryPickupEvent(InventoryPickupItemEvent event) {
-		if (Sorter.checkNames(event.getInventory().getName())) {
-			Inventory dest = event.getInventory();
-			Inventory inv =  plugin.getRules().getInv(dest.getLocation());
-			if(!HopperListener.checkSimilarity(event.getItem().getItemStack().getType(), inv)) {            
+		 Inventory dest = event.getInventory();   
+		 if(plugin.getRules().checkLocation(dest.getLocation())){
+			 Inventory inv =  plugin.getRules().getInv(dest.getLocation());
+			 if(!HopperListener.checkSimilarity(event.getItem().getItemStack().getType(), inv)) {            
 				event.setCancelled(true);                            
-			}
+			 }
 		}
 	}
 }

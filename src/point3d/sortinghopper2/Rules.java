@@ -28,6 +28,8 @@ public class Rules {
 	      	this.backend = new Flatfile(plugin);
 	        }
 	}
+	
+
 	    
 	
 	public Inventory getInv(Location loc){
@@ -45,6 +47,10 @@ public class Rules {
 		return rules.containsValue(inv);
 	}
 	
+	public boolean checkLocation(Location loc){
+		return rules.containsKey(loc);
+	}
+
 	public void removeRule(Location loc){
       	if(rules.containsKey(loc)){
       		SortingHopper.DebugLog("Break: Removing rule");

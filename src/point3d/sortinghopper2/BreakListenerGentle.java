@@ -1,11 +1,11 @@
 package point3d.sortinghopper2;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.block.Hopper;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -40,9 +40,8 @@ public final class BreakListenerGentle implements Listener {
 			return;
 		}
 		if (event.getBlock().getType() == Material.HOPPER) {
-			Hopper hopper = (Hopper)event.getBlock().getState();
-
-			if (Sorter.checkNames(hopper.getInventory().getName())) {
+			Location loc = event.getBlock().getLocation();
+			if (plugin.getRules().checkLocation(loc)) {
 				plugin.getRules().removeRule(event.getBlock().getLocation());
 				event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), drop);
 

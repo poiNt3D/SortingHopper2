@@ -29,12 +29,11 @@ public final class HopperListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onInventoryMoveItemEvent(InventoryMoveItemEvent event) {
-		    Inventory dest = event.getDestination();
-
-		    if(Sorter.checkNames(dest.getName())){
+		    Inventory dest = event.getDestination();   
+		    if(plugin.getRules().checkLocation(dest.getLocation())){
 			  Inventory inv =  plugin.getRules().getInv(dest.getLocation());
 		        if(!checkSimilarity(event.getItem().getType(), inv)) {            
-		            event.setCancelled(true);                            
+		            event.setCancelled(true);    
 		        }
 		    }
 	}

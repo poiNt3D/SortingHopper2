@@ -55,7 +55,7 @@ public class SortingHopper extends JavaPlugin{
 		}
 		
 		if (getConfig().getBoolean("preventitempickup")) {
-			final PickupListener pickupListener = new PickupListener();
+			final PickupListener pickupListener = new PickupListener(this);
 			pm.registerEvents(pickupListener, this);
 		}
 		else if(getConfig().getBoolean("sortitempickup")) {
