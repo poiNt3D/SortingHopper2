@@ -54,7 +54,7 @@ public void onPlayerInteract(PlayerInteractEvent event) {
 }
 @EventHandler
 public void onInventoryClick(InventoryClickEvent event) {
-	if(event.getClickedInventory() == null || event.getCurrentItem().getType().equals(Material.AIR)){
+	if(event.getClickedInventory() == null || event.getCurrentItem() == null || event.getCurrentItem().getType().equals(Material.AIR)){
 		return;
 	}
 	
