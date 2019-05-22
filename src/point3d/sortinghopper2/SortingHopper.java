@@ -15,8 +15,8 @@ import point3d.sortinghopper2.PlayerListener;
 public class SortingHopper extends JavaPlugin{
 	
   	public static final Logger mclog = Logger.getLogger("minecraft"); 
-  	private final Rules rules = new Rules(this);
-  	private final Sorter sorter = new Sorter(this);
+  	private Rules rules;
+  	private Sorter sorter;
   	private static boolean debug = true;
   	
   	
@@ -27,6 +27,9 @@ public class SortingHopper extends JavaPlugin{
 		    
 		this.loadConf();
 		debug=getConfig().getBoolean("debug");
+		
+		this.rules = new Rules(this);
+		this.sorter = new Sorter(this);
 		
 		this.getCommand("sortinghopper").setExecutor(new CommandListener(this));
 		
