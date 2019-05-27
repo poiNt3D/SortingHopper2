@@ -23,13 +23,15 @@ public class SortingHopper extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		
+		this.rules = new Rules(this);
+		this.sorter = new Sorter(this);
+		
 		PluginManager pm = getServer().getPluginManager();
 		    
 		this.loadConf();
 		debug=getConfig().getBoolean("debug");
 		
-		this.rules = new Rules(this);
-		this.sorter = new Sorter(this);
+
 		
 		this.getCommand("sortinghopper").setExecutor(new CommandListener(this));
 		
