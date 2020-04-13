@@ -44,7 +44,7 @@ public class SortingHopper extends JavaPlugin{
 		if (getConfig().getBoolean("replacedrops")) {
 			final BreakListener breakListener = new BreakListener(this);
 			pm.registerEvents(breakListener, this);
-		} else  {
+		} else if (getConfig().getBoolean("check_lore")){
 			if(Material.matchMaterial(this.getConfig().getString("add_drop")) != null){
 				ItemStack drop = new ItemStack(Material.matchMaterial(this.getConfig().getString("add_drop")));
 				final BreakListenerGentle breakListener = new BreakListenerGentle(this, drop);
