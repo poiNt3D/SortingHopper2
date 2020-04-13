@@ -36,7 +36,7 @@ public final class BreakListener implements Listener {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			return;
 		}
-		if (event.getBlock().getType() == Material.HOPPER) {
+		if (event.isCancelled() == false && event.getBlock().getType() == Material.HOPPER) {
 			Location loc = event.getBlock().getLocation();
 			if (plugin.getRules().checkLocation(loc)) {
 				plugin.getRules().removeRule(loc);
