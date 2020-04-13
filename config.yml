@@ -25,7 +25,10 @@ replacedrops: false
 #It will drop a regular hopper and add a comparator by default, which is crafting ingridients for a new Sorter
 #You can set this to whatever, if you don't want any drops
 add_drop: COMPARATOR
-# Lore is displayed on the item
+# Lore is the item description.
+# Players cannot change lore without commands.
+# If you want to prevent players making sorters by renaming hoppers on the anvil, set check_lore to true
+check_lore: false
 lore: 
   - "Only selected items will go through."
   - "Rightclick to show rules"

@@ -17,6 +17,7 @@ public class Sorter {
 	private static String sorter_primaryname = "Sorter";
 	private static List<String> sorter_names =  new ArrayList<>(Arrays.asList(sorter_primaryname));
 	private static List<String> sorter_lore =  new ArrayList<>();
+	private static boolean check_lore = false;
 	private static int invSize = 9;
 	
 
@@ -33,7 +34,8 @@ public class Sorter {
  		sorter_primaryname = plugin.getConfig().getStringList("names").get(0);
  	  	sorter_names = colorize(plugin.getConfig().getStringList("names"));
  	  	sorter_lore =  colorize(plugin.getConfig().getStringList("lore"));
-	  	
+ 	  	check_lore =  plugin.getConfig().getBoolean("check_lore");
+ 	  	
  	  	if(plugin.getConfig().getInt("inventory_size") > 0){
  	  		invSize = plugin.getConfig().getInt("inventory_size");
  	  	}
@@ -66,7 +68,12 @@ public class Sorter {
 	
 	public static boolean checkItem(ItemStack item) {
 		if(item.getType().equals(Material.HOPPER) && item.hasItemMeta()) {
-			return item.getItemMeta().getLore().equals(sorter_lore);
+			if(check_lore) {
+				return item.getItemMeta().getLore().equals(sorter_lore);
+			}
+			else {
+				return sorter_names.contains(item.getItemMeta().getDisplayName());
+			}
 		}
 		else return false;
 	}
