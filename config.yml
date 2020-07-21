@@ -14,8 +14,6 @@ autosave: true
 preventitempickup: false
 #Filter items picked up from the ground. "preventitempickup" must be set to false
 sortitempickup: true
-#Prevent players from getting sorting hoppers by renaming on the anvil
-preventrename: true
 # If true, the plugin will listen to block break events and if a sorter block was broken
 # it will replace dropped hopper with the named one.
 # In order to do so, it have to cancel the breaking event and replace block with AIR.

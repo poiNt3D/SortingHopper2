@@ -44,17 +44,15 @@ public class SortingHopper extends JavaPlugin{
 		if (getConfig().getBoolean("replacedrops")) {
 			final BreakListener breakListener = new BreakListener(this);
 			pm.registerEvents(breakListener, this);
-		} else if (getConfig().getBoolean("check_lore")){
+		} else{
 			if(Material.matchMaterial(this.getConfig().getString("add_drop")) != null){
 				ItemStack drop = new ItemStack(Material.matchMaterial(this.getConfig().getString("add_drop")));
 				final BreakListenerGentle breakListener = new BreakListenerGentle(this, drop);
 				pm.registerEvents(breakListener, this);
 			}
-		}
-			
-		
+		}	
 		//Config setting renamed, checking old name for compatibility 
-		if(getConfig().getBoolean("preventrename") || getConfig().getBoolean("convert_old")){
+		if(getConfig().getBoolean("check_lore") || getConfig().getBoolean("preventrename") || getConfig().getBoolean("convert_old")){
 			final PlaceListener placeListener = new PlaceListener(this);
 			pm.registerEvents(placeListener, this);
 		}

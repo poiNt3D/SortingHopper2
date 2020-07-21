@@ -17,7 +17,7 @@ public final class PlaceListener  implements Listener{
 	    
 	    @EventHandler
 	    public void onBlockPlace(BlockPlaceEvent event){
-		    if(event.getItemInHand().getType().equals(Material.HOPPER) && plugin.getConfig().getStringList("names").contains((event.getItemInHand().getItemMeta().getDisplayName()))){
+		    if(event.getItemInHand().getType().equals(Material.HOPPER) && plugin.getConfig().getStringList("names").contains((event.getItemInHand().getItemMeta().getDisplayName())) && !Sorter.checkItem(event.getItemInHand())){
 			    event.setCancelled(true);
 			    event.getPlayer().sendMessage("[SortingHopper] Wrong item. Use crafting recipe.");
 		    }

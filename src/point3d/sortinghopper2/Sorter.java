@@ -32,8 +32,8 @@ public class Sorter {
 	}
 	public void reload(){
  		sorter_primaryname = plugin.getConfig().getStringList("names").get(0);
- 	  	sorter_names = colorize(plugin.getConfig().getStringList("names"));
- 	  	sorter_lore =  colorize(plugin.getConfig().getStringList("lore"));
+ 	  	sorter_names = plugin.getConfig().getStringList("names");
+ 	  	sorter_lore =  plugin.getConfig().getStringList("lore");
  	  	check_lore =  plugin.getConfig().getBoolean("check_lore");
  	  	
  	  	if(plugin.getConfig().getInt("inventory_size") > 0){
@@ -60,8 +60,8 @@ public class Sorter {
 		ItemStack item = new ItemStack(Material.HOPPER);
 		EnchantGlow.addGlow(item);
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(sorter_names.get(0));
-		meta.setLore(sorter_lore);
+		meta.setDisplayName(colorize(sorter_names.get(0)));
+		meta.setLore(colorize(sorter_lore));
 		item.setItemMeta(meta);
 		return item;
 	}
@@ -69,13 +69,15 @@ public class Sorter {
 	public static boolean checkItem(ItemStack item) {
 		if(item.getType().equals(Material.HOPPER) && item.hasItemMeta()) {
 			if(check_lore) {
-				return item.getItemMeta().getLore().equals(sorter_lore);
+				if(item.getItemMeta().getLore() != null) {
+					return item.getItemMeta().getLore().equals(sorter_lore);
+				}
 			}
 			else {
-				return sorter_names.contains(item.getItemMeta().getDisplayName());
+				return sorter_names.contains(item.getItemMeta().getDisplayName());				
 			}
 		}
-		else return false;
+		return false;
 	}
 	/**
 	 * Create an Inventory with custom inventory name and configured size
@@ -86,7 +88,12 @@ public class Sorter {
 		return inv;
  	}
  	
+	public static String colorize (String s){
+		List<String> r = new ArrayList<String>();
+		if(s instanceof String)r.add(ChatColor.translateAlternateColorCodes('&', "&r" + s));
+		return s;
 	
+	}	
 	public static List<String> colorize(List<String> l){
 		List<String> r = new ArrayList<String>();
 		for(String s : l){

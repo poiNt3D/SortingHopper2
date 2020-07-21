@@ -73,7 +73,7 @@ public void onInventoryClick(InventoryClickEvent event) {
 //		//player clicks his own inventory, add item
 		else if(inv_top.firstEmpty() >= 0 && inv_top.first(event.getCurrentItem()) < 0) {
 
-			ItemStack item = new ItemStack(event.getCurrentItem().getType());
+			ItemStack item = new ItemStack(event.getCurrentItem());
 			ItemMeta meta = item.getItemMeta();
 			meta.setLore(plugin.getConfig().getStringList("rule_lore"));
 			item.setItemMeta(meta);
