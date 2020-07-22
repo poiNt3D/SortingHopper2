@@ -36,16 +36,17 @@ public final class BreakListenerGentle implements Listener {
 	 */
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
-			return;
-		}
 		if (event.getBlock().getType() == Material.HOPPER) {
 			Location loc = event.getBlock().getLocation();
 			if (plugin.getRules().checkLocation(loc)) {
-				plugin.getRules().removeRule(event.getBlock().getLocation());
-				event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), drop);
-
+				if (event.getPlayer().getGameMode() == GameMode.SURVIVAL) {
+					event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), drop);
+				}
+				else if (!plugin.getRules().checkEmpty(loc)) {
+					return;
+				}
 				
+				plugin.getRules().removeRule(loc);
 			}
 		}
 	}

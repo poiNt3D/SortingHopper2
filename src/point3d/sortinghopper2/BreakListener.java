@@ -33,20 +33,26 @@ public final class BreakListener implements Listener {
 	 */
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
-			return;
-		}
 		if (event.isCancelled() == false && event.getBlock().getType() == Material.HOPPER) {
 			Location loc = event.getBlock().getLocation();
 			if (plugin.getRules().checkLocation(loc)) {
+				if (event.getPlayer().getGameMode() == GameMode.SURVIVAL) {
+					ItemStack drop = Sorter.getItem();
+					
+					// Hacky method of replacing drops, may conflict with protection plugins
+					event.setCancelled(true);
+					event.getBlock().setType(Material.AIR);
+					event.getBlock().getWorld().dropItemNaturally(loc, drop);
+				}
+				else if (!plugin.getRules().checkEmpty(loc)) {
+					return;
+				}
+				
 				plugin.getRules().removeRule(loc);
 				
-				ItemStack drop = Sorter.getItem();
+				
 
-				// Looks hacky
-				event.setCancelled(true);
-				event.getBlock().setType(Material.AIR);
-				event.getBlock().getWorld().dropItemNaturally(loc, drop);
+
 			}
 		}
 	}

@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import point3d.sortinghopper2.backend.RulesBackend;
 import point3d.sortinghopper2.backend.flatfile.Flatfile;
 
@@ -49,6 +51,13 @@ public class Rules {
 	
 	public boolean checkLocation(Location loc){
 		return rules.containsKey(loc);
+	}
+	
+	public boolean checkEmpty(Location loc){
+	        for(ItemStack item : this.getInv(loc).getContents()){
+	              if(item != null) return false;
+	        }
+	        return true;
 	}
 
 	public void removeRule(Location loc){
