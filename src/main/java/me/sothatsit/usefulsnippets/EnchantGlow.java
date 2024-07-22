@@ -1,23 +1,24 @@
 package me.sothatsit.usefulsnippets;
 
+import static org.bukkit.Registry.*;
+
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.Field;
+import java.util.logging.Logger;
 
-public class EnchantGlow extends EnchantmentWrapper {
+public class EnchantGlow extends Enchantment {
 
-	private static Enchantment glow;
-
-	private EnchantGlow(String name) {
-	    super(name);
+	private EnchantGlow() {
+		super();
 	}
 
 	@Override
 	public boolean canEnchantItem(ItemStack item) {
-	    return true;
+	    return false;
 	}
 
 	@Override
@@ -31,8 +32,18 @@ public class EnchantGlow extends EnchantmentWrapper {
 	}
 
 	@Override
+	public boolean isTreasure() {
+		return false;
+	}
+
+	@Override
+	public boolean isCursed() {
+		return false;
+	}
+
+	@Override
 	public int getMaxLevel() {
-	    return 10;
+	    return 0;
 	}
 
 	@Override
@@ -42,39 +53,34 @@ public class EnchantGlow extends EnchantmentWrapper {
 
 	@Override
 	public int getStartLevel() {
-		return 1;
-	}
-
-	public static Enchantment getGlow() {
-		if (glow != null) {
-			return glow;
-		}
-
-		try {
-			Field f = Enchantment.class.getDeclaredField("acceptingNew");
-			f.setAccessible(true);
-			f.set(null, true);
-		} catch (Exception e) {
-			// e.printStackTrace();
-		}
-
-		glow = new EnchantGlow("glow");
-		Enchantment.registerEnchantment(glow);
-		return glow;
+		return 0;
 	}
 
 	public static void addGlow(ItemStack item) {
-		Enchantment glow = getGlow();
-		item.addEnchantment(glow, 1);
-	}
-	public static void removeGlow(ItemStack item) {
-		Enchantment glow = getGlow();
-		item.removeEnchantment(glow);
-	}
-	public static boolean hasGlow(ItemStack item) {
-		if (item == null || getGlow() == null || item.getEnchantments() == null) {
-			return false;
+		ItemMeta im = item.getItemMeta();
+		if (im == null) {
+			return;
 		}
-		return item.getEnchantments().containsKey(getGlow());
+		im.setEnchantmentGlintOverride(true);
+		item.setItemMeta(im);
+	}
+
+	public static void removeGlow(ItemStack item) {
+		ItemMeta im = item.getItemMeta();
+		if (im == null) {
+			return;
+		}
+		im.setEnchantmentGlintOverride(false);
+		item.setItemMeta(im);
+	}
+
+	@Override
+	public NamespacedKey getKey() {
+		return null;
+	}
+
+	@Override
+	public String getTranslationKey() {
+		return "";
 	}
 }

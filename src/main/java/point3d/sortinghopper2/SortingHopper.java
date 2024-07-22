@@ -12,7 +12,7 @@ import point3d.sortinghopper2.PlayerListener;
  * Sorting Hopper plugin. Allows the creation of a special hopper that
  * "sorts", or only accepts a particular input.
  */
-public class SortingHopper extends JavaPlugin{
+public class SortingHopper extends JavaPlugin {
 	
   	public static final Logger mclog = Logger.getLogger("minecraft"); 
   	private Rules rules;
@@ -22,17 +22,14 @@ public class SortingHopper extends JavaPlugin{
   	
 	@Override
 	public void onEnable() {
-		
 		this.rules = new Rules(this);
 		this.sorter = new Sorter(this);
-		
+
 		PluginManager pm = getServer().getPluginManager();
-		    
+
 		this.loadConf();
 		debug=getConfig().getBoolean("debug");
-		
 
-		
 		this.getCommand("sortinghopper").setExecutor(new CommandListener(this));
 		
 		final PlayerListener playerListener = new PlayerListener(this);
@@ -44,13 +41,14 @@ public class SortingHopper extends JavaPlugin{
 		if (getConfig().getBoolean("replacedrops")) {
 			final BreakListener breakListener = new BreakListener(this);
 			pm.registerEvents(breakListener, this);
-		} else{
-			if(Material.matchMaterial(this.getConfig().getString("add_drop")) != null){
+		} else {
+			if(Material.matchMaterial(this.getConfig().getString("add_drop")) != null) {
 				ItemStack drop = new ItemStack(Material.matchMaterial(this.getConfig().getString("add_drop")));
 				final BreakListenerGentle breakListener = new BreakListenerGentle(this, drop);
 				pm.registerEvents(breakListener, this);
 			}
-		}	
+		}
+
 		//Config setting renamed, checking old name for compatibility 
 		if(getConfig().getBoolean("check_lore") || getConfig().getBoolean("preventrename") || getConfig().getBoolean("convert_old")){
 			final PlaceListener placeListener = new PlaceListener(this);
@@ -60,24 +58,22 @@ public class SortingHopper extends JavaPlugin{
 		if (getConfig().getBoolean("preventitempickup")) {
 			final PickupListener pickupListener = new PickupListener(this);
 			pm.registerEvents(pickupListener, this);
-		}
-		else if(getConfig().getBoolean("sortitempickup")) {
+		} else if(getConfig().getBoolean("sortitempickup")) {
 			final PickupListenerFilter pickupListener = new PickupListenerFilter(this);
 			pm.registerEvents(pickupListener, this);
-		}		
+		}
+
 		if (getConfig().getBoolean("crafting.enabled")) {
 			final ServerLoadListener serverloadistener = new ServerLoadListener(this);
 			pm.registerEvents(serverloadistener, this);
 		}
 
-		
 		rules.loadAndBackup();
 		TagUtil.loadSortingTags();
-		
-		 
+
 		this.getLogger().info("started!");
-		                
-		}
+	}
+
 	@Override
 	public void onDisable() {
 			this.getLogger().info("Saving rules...");
@@ -91,9 +87,8 @@ public class SortingHopper extends JavaPlugin{
 	}
 	
 	private void loadConf(){
-		
 		this.saveDefaultConfig();
-		
+
 		File itemgroupsyml = new File(this.getDataFolder(), "itemgroups.yml");
 		if (!itemgroupsyml.exists()) {
 			this.saveResource("itemgroups.yml", false);
@@ -109,6 +104,5 @@ public class SortingHopper extends JavaPlugin{
 		if(debug){
 			mclog.info("[Sorting Hopper2] " + message);
 		}
-	    
 	}
 }

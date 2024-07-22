@@ -43,16 +43,10 @@ public final class BreakListener implements Listener {
 					event.setCancelled(true);
 					event.getBlock().setType(Material.AIR);
 					event.getBlock().getWorld().dropItemNaturally(loc, drop);
-				}
-				else if (!plugin.getRules().checkEmpty(loc)) {
+				} else if (!plugin.getRules().checkEmpty(loc)) {
 					return;
 				}
-				
 				plugin.getRules().removeRule(loc);
-				
-				
-
-
 			}
 		}
 	}
