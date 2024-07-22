@@ -3,6 +3,7 @@ main: point3d.sortinghopper2.SortingHopper
 description: Bukkit plugin that creates item filter from a hopper
 version: 2.3
 api-version: 1.13
+load: STARTUP
 softdepend:
   - Multiverse-Core
 commands:
