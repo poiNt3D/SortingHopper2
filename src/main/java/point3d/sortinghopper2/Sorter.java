@@ -10,7 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.sothatsit.usefulsnippets.EnchantGlow;
+import me.sothatsit.usefulsnippets.GlowHelperUtil;
 
 public class Sorter {
 
@@ -58,11 +58,16 @@ public class Sorter {
 	 */
 	public static ItemStack getItem() {
 		ItemStack item = new ItemStack(Material.HOPPER);
-		EnchantGlow.addGlow(item);
+		GlowHelperUtil.addGlow(item);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(colorize(sorter_names.get(0)));
 		meta.setLore(colorize(sorter_lore));
 		item.setItemMeta(meta);
+		return item;
+	}
+
+	public static ItemStack getHopper() {
+		ItemStack item = new ItemStack(Material.HOPPER);
 		return item;
 	}
 	

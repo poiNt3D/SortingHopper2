@@ -14,7 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.sothatsit.usefulsnippets.EnchantGlow;
+import me.sothatsit.usefulsnippets.GlowHelperUtil;
 import point3d.sortinghopper2.Serialization;
 import point3d.sortinghopper2.SortingHopper;
 import point3d.sortinghopper2.backend.RulesBackend;
@@ -96,7 +96,7 @@ public class Flatfile implements RulesBackend {
 		
 		for(ItemStack item : inv.getContents()) {
 			if(item!=null && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
-				EnchantGlow.addGlow(item);
+				GlowHelperUtil.addGlow(item);
 			}
 		}
 		

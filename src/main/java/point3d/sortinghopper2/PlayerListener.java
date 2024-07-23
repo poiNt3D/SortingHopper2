@@ -15,8 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.sothatsit.usefulsnippets.EnchantGlow;
-import point3d.sortinghopper2.SortingHopper;
+import me.sothatsit.usefulsnippets.GlowHelperUtil;
 
 public class PlayerListener implements Listener {
 
@@ -114,7 +113,7 @@ public static void itemTagSwitch(ItemStack item){
 			SortingHopper.DebugLog("Reset to default name");
 			meta.setDisplayName(null);
 			item.setItemMeta(meta);
-			EnchantGlow.removeGlow(item);
+			GlowHelperUtil.removeGlow(item);
 		}
 		else {
 			SortingHopper.DebugLog("Setting name to " + sortingtags.get(tagindex)); 
@@ -126,7 +125,7 @@ public static void itemTagSwitch(ItemStack item){
 		SortingHopper.DebugLog("Seting name to tag 0s");
 		meta.setDisplayName(sortingtags.get(0));
 		item.setItemMeta(meta);
-		EnchantGlow.addGlow(item);
+		GlowHelperUtil.addGlow(item);
 	}
 	
 }

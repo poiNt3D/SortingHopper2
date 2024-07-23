@@ -37,7 +37,7 @@ public final class BreakListener implements Listener {
 			Location loc = event.getBlock().getLocation();
 			if (plugin.getRules().checkLocation(loc)) {
 				if (event.getPlayer().getGameMode() == GameMode.SURVIVAL) {
-					ItemStack drop = Sorter.getItem();
+					ItemStack drop = Sorter.getHopper();
 					
 					// Hacky method of replacing drops, may conflict with protection plugins
 					event.setCancelled(true);
